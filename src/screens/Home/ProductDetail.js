@@ -1,9 +1,11 @@
 import {Button, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
 
-const ProductDetail = ({navigation}) => {
+const ProductDetail = ({route, navigation}) => {
+  console.log('💩: ProductDetail -> route', route?.params);
+
   // useEffect(() => {
-  // set lại 1 số thuộc tính của màn hình đó (vd title)
+  //   // set lại 1 số thuộc tính của màn hình đó (vd title)
   //   navigation.setOptions({title: 'new title'});
   // }, []);
 
