@@ -7,7 +7,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from './src/screens/Auth/Login';
 import BottomTabs from './src/navigation/BottomTabs';
 import ProductDetail from './src/screens/Home/ProductDetail';
-import MapView from './src/screens/MapView';
+import MyMapView from './src/screens/MapView';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,7 +32,7 @@ function App() {
         }}>
         <Stack.Screen
           name="Maps"
-          component={MapView}
+          component={MyMapView}
           options={{headerShown: false}}
         />
         <Stack.Screen
