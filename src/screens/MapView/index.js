@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Linking,
   PermissionsAndroid,
@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
+import {getBrandApi} from '../../api/brand';
 
 const styles = StyleSheet.create({
   container: {
@@ -83,9 +84,27 @@ const MyMapView = ({navigation}) => {
     }
   };
 
+  const [data, setData] = useState([]);
+
+  const getData = async () => {
+    try {
+      const res = await getBrandApi({limit: 10, page: 1});
+      setData(res?.data);
+      console.log('💩: getData -> res', res);
+    } catch (error) {
+      console.log('💩: getData -> error', error);
+    }
+  };
+
   useEffect(() => {
-    requestLocationPermission();
+    getData();
   }, []);
+
+  console.log('💩: MyMapView -> data', data);
+
+  // useEffect(() => {
+  //   requestLocationPermission();
+  // }, []);
 
   const openGoogleMapsApp = () => {
     // Hàm này sẽ mở app google maps và thực hiện chỉ đường
@@ -129,6 +148,18 @@ const MyMapView = ({navigation}) => {
           );
         })}
       </MapView>
+      {data?.rows?.length > 0 && (
+        <View>
+          {data?.rows?.map(item => {
+            return (
+              <View>
+                <Text>{item?.name}</Text>
+              </View>
+            );
+          })}
+        </View>
+      )}
+
       <View style={{flex: 1}}>
         <TouchableOpacity onPress={openGoogleMapsApp} style={styles.btn}>
           <Text>Open google maps</Text>
