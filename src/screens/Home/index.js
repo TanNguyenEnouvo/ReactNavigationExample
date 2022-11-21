@@ -8,7 +8,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
+import useCalculate from '../../utils/hooks/useCalculate';
+import {useDispatch, useSelector} from 'react-redux';
+import getBrandsThunk from '../../redux/Brands/thunk';
+import {store} from '../../redux/store';
+import {getBrandApi} from '../../api/brand';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
@@ -58,6 +63,33 @@ const INITIAL_DATA = [
 
 const Home = ({navigation}) => {
   const [data, setData] = useState(INITIAL_DATA);
+
+  // custom hook
+  const {plus} = useCalculate();
+  // console.log('💩: Home -> plus', plus({x: 1, y: 2}));
+
+  //redux
+  const dispatch = useDispatch();
+  const myBrands = useSelector(state => state.getBrandsReducer.data);
+  const loading = useSelector(state => state.getBrandsReducer.loading);
+
+  // console.log('💩: Home -> myBrands', myBrands);
+
+  store.getState();
+  // console.log('💩: Home -> store.getState()', store.getState());
+
+  useEffect(() => {
+    dispatch(getBrandsThunk());
+  }, []);
+
+  const getBrandsData = async () => {
+    try {
+      const res = await getBrandApi({limit: 10, page: 1});
+      console.log('💩: getBrandsData -> res', res);
+    } catch (error) {
+      console.log('💩: getBrandsData -> error', error);
+    }
+  };
 
   const onLoadMore = () => {
     setData([
@@ -113,9 +145,26 @@ const Home = ({navigation}) => {
     );
   };
 
+  const flatList = useRef(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      flatList?.current?.scrollToEnd();
+    }, 2000);
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size={'large'} />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
+        ref={flatList}
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}
         ListEmptyComponent={renderEmpty}
@@ -158,4 +207,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'pink',
   },
   headerContainer: {height: 44, backgroundColor: 'pink'},
+  loadingContainer: {flex: 1, alignItems: 'center', justifyContent: 'center'},
 });

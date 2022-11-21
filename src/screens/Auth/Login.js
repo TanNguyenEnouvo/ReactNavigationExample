@@ -11,21 +11,10 @@ const Login = ({navigation}) => {
           // navigation.navigate('Main');
 
           // navigate qua bottom tab nhưng ko back trở lại login được
-          // navigation.reset({
-          //   index: 0,
-          //   routes: [{name: 'Main'}],
-          // });
-          const latitude = '40.7127753';
-          const longitude = '-74.0059728';
-          const label = 'New York, NY, USA';
-
-          const url = Platform.select({
-            ios: 'maps:' + latitude + ',' + longitude + '?q=' + label,
-            android: 'geo:' + latitude + ',' + longitude + '?q=' + label,
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'Main'}],
           });
-          console.log('💩: Login -> url', url);
-
-          Linking.openURL(url);
         }}
       />
     </View>

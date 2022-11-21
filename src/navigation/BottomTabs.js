@@ -6,6 +6,7 @@ import Favourite from '../screens/Favourite';
 import MyBooking from '../screens/Mybooking';
 import Chat from '../screens/Chat';
 import Setting from '../screens/Setting';
+import MyMapView from '../screens/MapView';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -39,15 +40,13 @@ const BottomTabs = () => {
       />
 
       <BottomTab.Screen
-        name="FavouriteTab"
-        component={Favourite}
+        name="MyMapView"
+        component={MyMapView}
         options={() => {
           return {
             tabBarLabel: ({focused}) => {
               return (
-                <Text style={{color: focused ? 'red' : 'black'}}>
-                  {'Favourite'}
-                </Text>
+                <Text style={{color: focused ? 'red' : 'black'}}>{'Map'}</Text>
               );
             },
             tabBarIcon: () => (

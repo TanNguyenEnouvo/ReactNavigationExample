@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   Linking,
   PermissionsAndroid,
@@ -9,34 +9,6 @@ import {
   View,
 } from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
-import {getBrandApi} from '../../api/brand';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  map: {
-    flex: 2,
-  },
-  marker: {
-    width: 50,
-    height: 50,
-    borderRadius: 12,
-    backgroundColor: 'lightblue',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  label: {fontSize: 12},
-  btn: {
-    margin: 10,
-    backgroundColor: 'pink',
-    width: 140,
-    height: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 8,
-  },
-});
 
 const INITIAL_REGION = {
   latitude: 16.073403,
@@ -61,19 +33,13 @@ const MARKER_DATA = [
 const MyMapView = ({navigation}) => {
   const requestLocationPermission = async () => {
     if (Platform.OS === 'ios') {
-      // getOneTimeLocation();
     }
     if (Platform.OS === 'android') {
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          // {
-          //   title: 'Location access request',
-          //   message: 'This app need to acces your location',
-          // },
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          // getOneTimeLocation();
           console.log('lay dc diaj chi');
         } else {
           console.log('Khong cho');
@@ -84,25 +50,8 @@ const MyMapView = ({navigation}) => {
     }
   };
 
-  const [data, setData] = useState([]);
-
-  const getData = async () => {
-    try {
-      const res = await getBrandApi({limit: 10, page: 1});
-      setData(res?.data);
-      console.log('💩: getData -> res', res);
-    } catch (error) {
-      console.log('💩: getData -> error', error);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  console.log('💩: MyMapView -> data', data);
-
   // useEffect(() => {
+  // hàm yêu cầu cấp quyền định vị vị trí
   //   requestLocationPermission();
   // }, []);
 
@@ -148,17 +97,6 @@ const MyMapView = ({navigation}) => {
           );
         })}
       </MapView>
-      {data?.rows?.length > 0 && (
-        <View>
-          {data?.rows?.map(item => {
-            return (
-              <View>
-                <Text>{item?.name}</Text>
-              </View>
-            );
-          })}
-        </View>
-      )}
 
       <View style={{flex: 1}}>
         <TouchableOpacity onPress={openGoogleMapsApp} style={styles.btn}>
@@ -170,3 +108,30 @@ const MyMapView = ({navigation}) => {
 };
 
 export default MyMapView;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  map: {
+    flex: 2,
+  },
+  marker: {
+    width: 50,
+    height: 50,
+    borderRadius: 12,
+    backgroundColor: 'lightblue',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  label: {fontSize: 12},
+  btn: {
+    margin: 10,
+    backgroundColor: 'pink',
+    width: 140,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+  },
+});
