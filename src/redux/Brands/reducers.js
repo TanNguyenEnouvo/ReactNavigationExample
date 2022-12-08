@@ -14,7 +14,7 @@ const getBrandsReducer = (state = init, action) => {
     case GetBrandsTypes.GET_BRANDS_SUCCESS:
       return {
         ...state,
-        data: [...state.data, ...action?.response?.rows],
+        data: [...state.data, ...action?.response],
         loading: false,
       };
     case GetBrandsTypes.GET_BRANDS_SUCCESS:

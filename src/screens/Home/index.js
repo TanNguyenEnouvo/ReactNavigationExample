@@ -14,6 +14,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import getBrandsThunk from '../../redux/Brands/thunk';
 import {store} from '../../redux/store';
 import {getBrandApi} from '../../api/brand';
+import {getBrandsData} from '../../reduxToolKit/Brands/thunk';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
@@ -70,26 +71,33 @@ const Home = ({navigation}) => {
 
   //redux
   const dispatch = useDispatch();
-  const myBrands = useSelector(state => state.getBrandsReducer.data);
-  const loading = useSelector(state => state.getBrandsReducer.loading);
+
+  // const myBrands = useSelector(state => state.getBrandsReducer.data);
+  // const loading = useSelector(state => state.getBrandsReducer.loading);
+
+  const myBrandsToolkit = useSelector(
+    state => state.getBrandsToolKitReducer.data,
+  );
+  const loading = useSelector(state => state.getBrandsToolKitReducer.loading);
 
   // console.log('💩: Home -> myBrands', myBrands);
 
   store.getState();
-  // console.log('💩: Home -> store.getState()', store.getState());
+  console.log('💩: Home -> store.getState()', store.getState());
 
   useEffect(() => {
-    dispatch(getBrandsThunk());
+    // dispatch(getBrandsThunk());
+    dispatch(getBrandsData({limit: 10, page: 1}));
   }, []);
 
-  const getBrandsData = async () => {
-    try {
-      const res = await getBrandApi({limit: 10, page: 1});
-      console.log('💩: getBrandsData -> res', res);
-    } catch (error) {
-      console.log('💩: getBrandsData -> error', error);
-    }
-  };
+  // const getBrandsData = async () => {
+  //   try {
+  //     const res = await getBrandApi({limit: 10, page: 1});
+  //     console.log('💩: getBrandsData -> res', res);
+  //   } catch (error) {
+  //     console.log('💩: getBrandsData -> error', error);
+  //   }
+  // };
 
   const onLoadMore = () => {
     setData([

@@ -1,15 +1,14 @@
 // In App.js in a new project
 
-import * as React from 'react';
-import {Text, TouchableOpacity} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Login from './src/screens/Auth/Login';
-import BottomTabs from './src/navigation/BottomTabs';
-import ProductDetail from './src/screens/Home/ProductDetail';
-import MyMapView from './src/screens/MapView';
+import * as React from 'react';
+import {Text, TouchableOpacity} from 'react-native';
 import {Provider} from 'react-redux';
+import BottomTabs from './src/navigation/BottomTabs';
 import {store} from './src/redux/store';
+import Login from './src/screens/Auth/Login';
+import ProductDetail from './src/screens/Home/ProductDetail';
 
 const Stack = createNativeStackNavigator();
 

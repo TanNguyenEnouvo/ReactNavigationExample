@@ -7,7 +7,7 @@ const getBrandsThunk = () => {
     dispatch(getBrandsActions.getBrands());
     getBrandApi({limit: 10, page: 1})
       .then(values => {
-        dispatch(getBrandsActions.getBrandsSuccess(values.data));
+        dispatch(getBrandsActions.getBrandsSuccess(values));
       })
       .catch(error => {
         dispatch(getBrandsActions.getBrandsFailure(error));
